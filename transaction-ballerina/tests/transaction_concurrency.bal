@@ -73,13 +73,23 @@ public function scheduleTasks() returns error? {
     var taskD = new TaskExecuter("D");
     var taskE = new TaskExecuter("E");
 
+    TaskExecuter[] tasks = [taskA, taskB, taskC, taskD, taskE];
+
     decimal interval = 0.1;
 
-    taskA.scheduleTaskExecution(interval);
-    taskB.scheduleTaskExecution(interval);
-    taskC.scheduleTaskExecution(interval);
-    taskD.scheduleTaskExecution(interval);
-    taskE.scheduleTaskExecution(interval);
+    future<()>[] futures = [];
+
+    foreach var item in tasks {
+        if (!transactional){
+            var x = start item.scheduleTaskExecution(interval);
+            futures.push(x);
+        }
+    }
+
+    foreach int item in 0 ..< futures.length() {
+        error? x = wait futures[item];
+        check x;
+    }
 
     runtime:sleep(10); // Sleep to allow tasks to run
 }
