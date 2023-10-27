@@ -23,12 +23,20 @@ plugins {
 
 description = 'Ballerina - Transaction Java Utils'
 
+repositories {
+    flatDir {
+        dirs 'libs' // Path to the directory where custom JAR file is located
+    }
+}
+
 dependencies {
     checkstyle project(':build-config:checkstyle')
     checkstyle "com.puppycrawl.tools:checkstyle:${puppycrawlCheckstyleVersion}"
     compileOnly group: 'org.ballerinalang', name: 'ballerina-lang', version: "${ballerinaLangVersion}"
-    compileOnly group: 'org.ballerinalang', name: 'ballerina-runtime', version: "${ballerinaLangVersion}"
-    compileOnly group: 'org.ballerinalang', name: 'ballerina-rt', version: "${ballerinaLangVersion}"
+    // compileOnly group: 'org.ballerinalang', name: 'ballerina-runtime', version: "${ballerinaLangVersion}"
+    // compileOnly group: 'org.ballerinalang', name: 'ballerina-rt', version: "${ballerinaLangVersion}"
+    compileOnly name: 'ballerina-rt-2201.8.0', ext: 'jar'
+    compileOnly name: 'ballerina-runtime-2201.8.0', ext: 'jar'
     compileOnly group: 'org.slf4j', name: 'slf4j-jdk14', version: "${slf4jVersion}"
 }
 
